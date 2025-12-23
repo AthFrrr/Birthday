@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday Liny</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffb6c1, #ffd1dc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  background: white;
+  padding: 22px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1 {
+  color: #ff4d6d;
+}
+
+button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  border: none;
+  border-radius: 20px;
+  background: #ff4d6d;
+  color: white;
+  font-size: 16px;
+}
+
+.hidden {
+  display: none;
+}
+
+#game {
+  position: relative;
+  height: 200px;
+  border: 2px dashed #ff4d6d;
+  border-radius: 15px;
+  margin-top: 10px;
+}
+
+.heart {
+  position: absolute;
+  font-size: 30px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <!-- Screen 1 -->
+  <div id="s1">
+    <h1>Happy Birthday Liny 🎂</h1>
+    <p>I made this just for you.</p>
+    <button onclick="go(2)">Continue 💝</button>
+  </div>
+
+  <!-- Screen 2 -->
+  <div id="s2" class="hidden">
+    <button onclick="go(3)">My favourite thing about you</button>
+    <button onclick="startGame()">Mini-game 💗</button>
+    <button onclick="go(6)">End</button>
+  </div>
+
+  <!-- Screen 3 -->
+  <div id="s3" class="hidden">
+    <p>
+      You’re kind, comforting, and genuinely special.
+      You make things feel lighter just by being you.
+    </p>
+    <button onclick="go(2)">Back</button>
+  </div>
+
+  <!-- Screen 4: Game -->
+  <div id="s4" class="hidden">
+    <p>Collect 10 hearts 💗</p>
+    <div id="game"></div>
+    <p id="count">0 / 10</p>
+  </div>
+
+  <!-- Screen 5 -->
+  <div id="s5" class="hidden">
+    <p>
+      You mean more to me than you probably know.
+      I’m really glad you’re in my life.
+    </p>
+    <button onclick="go(2)">Back</button>
+  </div>
+
+  <!-- Screen 6 -->
+  <div id="s6" class="hidden">
+    <p>Thank you for being my friend 💙</p>
+  </div>
+
+</div>
+
+<script>
+function go(n) {
+  for (let i = 1; i <= 6; i++) {
+    let e = document.getElementById("s" + i);
+    if (e) e.classList.add("hidden");
+  }
+  document.getElementById("s" + n).classList.remove("hidden");
+}
+
+let score = 0;
+let timer;
+
+function startGame() {
+  score = 0;
+  go(4);
+  const game = document.getElementById("game");
+  game.innerHTML = "";
+  document.getElementById("count").innerText = "0 / 10";
+
+  timer = setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * 80 + "%";
+    heart.style.top = Math.random() * 70 + "%";
+
+    heart.onclick = () => {
+      heart.remove();
+      score++;
+      document.getElementById("count").innerText = score + " / 10";
+      if (score >= 10) {
+        clearInterval(timer);
+        go(5);
+      }
+    };
+
+    game.appendChild(heart);
+    setTimeout(() => {
+      if (heart.parentNode) heart.remove();
+    }, 900);
+  }, 550);
+}
+</script>
+
+</body>
+</html>
